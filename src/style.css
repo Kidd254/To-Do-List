@@ -1,0 +1,66 @@
+body {
+  background: #f5f5f5;
+  font-family:'Times New Roman', Times, serif;
+  color: rgb(21, 21, 21);
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+}
+
+main {
+  margin: 80px 48px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 10px 5px 5px #d5d5d5;
+  border: 1px solid #d5d5d5;
+}
+
+main > h1 {
+  font-weight: normal;
+  padding: 24px;
+  margin: 0;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+#add-activity {
+  box-sizing: border-box;
+  margin: 0;
+  font-size: 24px;
+  font-style: italic;
+  padding: 24px;
+  border: none;
+  border-bottom: 1px solid #d5d5d5;
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul > li {
+  padding: 1.5rem;
+  border-bottom: 1px solid #d5d5d5;
+  display: flex;
+  text-align: center;
+  gap: 24px;
+}
+
+.checkbox {
+  height: 16px;
+  width: 16px;
+  margin: 0;
+}
+
+.bottom {
+  background: #f5f5f5;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom > a {
+  text-decoration: none;
+  color: #888;
+}
