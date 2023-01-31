@@ -1,11 +1,11 @@
- const path = require('path');
+const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
- module.exports = {
-   entry: {
-     index: './src/index.js',
-   },
+module.exports = {
+  entry: {
+    index: './src/index.js',
+  },
 
   plugins: [
 
@@ -16,11 +16,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
     }),
 
   ],
-   output: {
-     filename: 'main.js',
-     path: path.resolve(__dirname, 'dist'),
-   },
-    module: {
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  module: {
 
     rules: [
 
@@ -35,4 +35,4 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
     ],
 
   },
- };
+};
