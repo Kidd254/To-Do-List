@@ -28,7 +28,7 @@ devtool: 'inline-source-map',
   },
   optimization: {
 
-    runtimeChunk: 'multiple',
+    runtimeChunk: 'single',
 
   },
   module: {

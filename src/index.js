@@ -4,7 +4,7 @@ const taskList = document.getElementById('list');
 
 const listArr = [
   {
-    task: 'complete to do list activity',
+    task: 'Complete to do list activity',
     completed: true,
     index: 5,
   },
@@ -14,7 +14,7 @@ const listArr = [
     index: 2,
   },
   {
-    task: 'attend the stand-up meeting',
+    task: 'Attend the stand-up meeting',
     completed: false,
     index: 3,
   },
