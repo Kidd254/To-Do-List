@@ -10,7 +10,7 @@ module.exports = {
 
   devServer: {
 
-    static: './dist',
+    contentBase: './dist',
 
   },
   plugins: [
