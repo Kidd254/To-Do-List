@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     index: './src/index.js',
   },
-devtool: 'inline-source-map',
+  devtool: 'inline-source-map',
 
   devServer: {
 
@@ -26,11 +26,7 @@ devtool: 'inline-source-map',
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  optimization: {
 
-    runtimeChunk: 'single',
-
-  },
   module: {
 
     rules: [
