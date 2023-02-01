@@ -33,6 +33,10 @@ This project is built using pure
 - css
 - JavaScript
 - Webpack
+### Key Features
+- dynamic list of tasks
+- webpack
+- checkbox
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
