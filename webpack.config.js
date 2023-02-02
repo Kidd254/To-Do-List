@@ -1,11 +1,28 @@
-/* eslint-disable */
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: {
-    index: './src/index.js',
+
+    index: {
+
+      import: './src/index.js',
+
+      dependOn: 'shared',
+
+    },
+
+    print: {
+
+      import: './src/print.js',
+
+      dependOn: 'shared',
+
+    },
+
+    shared: './src/style.css',
   },
   devtool: 'inline-source-map',
 
@@ -24,7 +41,7 @@ module.exports = {
 
   ],
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   optimization: {
