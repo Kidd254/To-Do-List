@@ -1,49 +1,49 @@
 import Todo from './todo.js';
 import Delete from '../../images/delet-Icon.svg';
-import createCheckbox from './newCheckbox.js';
-import deleteEventHandler from './deletHandler.js';
+import createCheckbox from './addCheckbox.js';
+import deleteEventHandler from './delete.js';
 
 const createTaskDescripion = (description) => {
-  const taskDescription = document.createElement('input');
-  taskDescription.setAttribute('type', 'text');
-  taskDescription.setAttribute('name', 'edit-todo');
-  taskDescription.setAttribute('class', 'edit-todo-input');
-  taskDescription.setAttribute('value', description);
-  return taskDescription;
+  const activityDescription = document.createElement('input');
+  activityDescription.setAttribute('type', 'text');
+  activityDescription.setAttribute('name', 'edit-todo');
+  activityDescription.setAttribute('class', 'edit-todo-input');
+  activityDescription.setAttribute('value', description);
+  return activityDescription;
 };
 
-const createDeletElement = () => {
-  const deletElement = new Image();
-  deletElement.src = Delete;
-  deletElement.setAttribute('class', 'icon');
-  deletElement.addEventListener('click', deleteEventHandler);
-  return deletElement;
+const createDeleteElement = () => {
+  const deleteElement = new Image();
+  deleteElement.src = Delete;
+  deleteElement.setAttribute('class', 'icon');
+  deleteElement.addEventListener('click', deleteEventHandler);
+  return deleteElement;
 };
 
 const createEditElement = (indexTodo) => {
   const todo = Todo.getTodo(indexTodo);
-  const editElement = document.createElement('form');
-  editElement.setAttribute('class', 'edit-todo-form');
-  editElement.setAttribute('id', indexTodo);
-  editElement.setAttribute('action', '#');
-  editElement.setAttribute('method', 'patch');
-  editElement.setAttribute('type', 'submit');
+  const formElement = document.createElement('form');
+  formElement.setAttribute('class', 'edit-todo-form');
+  formElement.setAttribute('id', indexTodo);
+  formElement.setAttribute('action', '#');
+  formElement.setAttribute('method', 'patch');
+  formElement.setAttribute('type', 'submit');
   const label = document.createElement('label');
   label.setAttribute('for', 'edit-todo');
   label.setAttribute('id', 'edit-todo-label');
   const checkbox = createCheckbox(todo.completed);
   if (todo.completed) {
-    editElement.classList.add('completed');
+    formElement.classList.add('completed');
   } else {
-    editElement.classList.remove('completed');
+    formElement.classList.remove('completed');
   }
   label.appendChild(checkbox);
   const description = createTaskDescripion(todo.description);
   label.appendChild(description);
-  const deleteElement = createDeletElement();
-  editElement.appendChild(label);
-  editElement.appendChild(deleteElement);
-  return editElement;
+  const deleteElement = createDeleteElement();
+  formElement.appendChild(label);
+  formElement.appendChild(deleteElement);
+  return formElement;
 };
 
 export default createEditElement;

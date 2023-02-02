@@ -3,10 +3,10 @@ import Refresh from './rotate.svg';
 import Enter from './enter.png';
 import Todo from './modules/todo.js';
 import { appendToDOM } from './modules/changeDom.js';
-import createDisplayElement from './modules/displayTodo.js';
-import clearAllCompletedHandler from './modules/clearAllCompleted.js';
+import createDisplayElement from './modules/displayList.js';
+import clearAllCompletedHandler from './modules/clearcompleted.js';
 import { retrieveData } from './modules/localStorage.js';
-import { addTodoForm, addTodoFormHandler } from './modules/addNewTodo.js';
+import { addTodoForm, addTodoFormHandler } from './modules/addToList.js';
 import updateTodoHandler from './modules/updateTodoHandler.js';
 
 const loadElements = () => {

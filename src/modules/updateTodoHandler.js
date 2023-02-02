@@ -1,7 +1,7 @@
 import createEditFormElement from './editTodo.js';
 import Todo from './todo.js';
 import Edit from '../../images/edit-Icon.svg';
-import createCheckbox from './newCheckbox.js';
+import createCheckbox from './addCheckbox.js';
 
 const updateTodoHandler = () => {
   const inputElement = document.getElementsByClassName('edit-todo-input')[0];

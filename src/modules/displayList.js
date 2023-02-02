@@ -1,7 +1,7 @@
 import Edit from '../../images/edit-Icon.svg';
 import updateTodoHandler from './updateTodoHandler.js';
 import createEditElement from './editTodo.js';
-import createCheckbox from './newCheckbox.js';
+import createCheckbox from './addCheckbox.js';
 
 const editClickHandler = (e) => {
   const displayElement = e.target.parentElement;

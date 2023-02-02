@@ -1,7 +1,7 @@
 import Todo from './todo.js';
 import { appendToDOM } from './changeDom.js';
 import { retrieveData } from './localStorage.js';
-import desplayElement from './displayTodo.js';
+import desplayElement from './displayList.js';
 
 export const addTodoForm = document.getElementById('todo-form');
 

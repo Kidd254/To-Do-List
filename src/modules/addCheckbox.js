@@ -1,4 +1,4 @@
-import checkboxStatus from './checkboxStatus.js';
+import checkboxStatus from './checkbox.js';
 
 const createCheckbox = (status) => {
   const checkbox = document.createElement('input');

@@ -1,6 +1,6 @@
 import { storeData, retrieveData } from './localStorage.js';
 
-let newTodoArray = [];
+let newListArray = [];
 
 export default class Todo {
   constructor(description, completed, index) {
@@ -10,8 +10,8 @@ export default class Todo {
   }
 
   static getTodo = (index) => {
-    newTodoArray = retrieveData();
-    const todo = newTodoArray.find((x) => x.index.toString() === index.toString());
+    newListArray = retrieveData();
+    const todo = newListArray.find((x) => x.index.toString() === index.toString());
     return todo;
   }
 
@@ -27,22 +27,22 @@ export default class Todo {
   }
 
   static updateTodo = (todo) => {
-    newTodoArray = retrieveData();
-    newTodoArray = newTodoArray.filter((element) => element.index !== todo.index);
+    newListArray = retrieveData();
+    newListArray = newListArray.filter((element) => element.index !== todo.index);
     const newTodo = new Todo(
       todo.description,
       todo.completed,
       todo.index,
     );
-    newTodoArray.push(newTodo);
-    storeData(newTodoArray);
+    newListArray.push(newTodo);
+    storeData(newListArray);
   }
 
   static removeTodo = (index) => {
-    newTodoArray = retrieveData();
-    newTodoArray = newTodoArray.filter((element) => element.index.toString() !== index.toString());
+    newListArray = retrieveData();
+    newListArray = newListArray.filter((element) => element.index.toString() !== index.toString());
     const reIndexedArray = [];
-    newTodoArray.sort((x, y) => x.index - y.index).forEach((element, index) => {
+    newListArray.sort((x, y) => x.index - y.index).forEach((element, index) => {
       reIndexedArray.push(new Todo(element.description, element.completed, index + 1));
     });
     return storeData(reIndexedArray);
