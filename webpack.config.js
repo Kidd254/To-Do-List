@@ -1,5 +1,5 @@
 const path = require('path');
-
+/* eslint-disable */ 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
