@@ -1,4 +1,4 @@
-import './styles.css';
+import './style.css';
 import Refresh from './rotate.svg';
 import Enter from './enter.png';
 import Todo from './modules/todo.js';
