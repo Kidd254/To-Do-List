@@ -9,10 +9,20 @@
 <script defer src="index.bundle.js"></script><script defer src="print.bundle.js"></script><script defer src="runtime.bundle.js"></script><script defer src="shared.bundle.js"></script></head>
 
 <body>
-    <main class="list-container">
-        <h1>Today's To Do list</h1>
-        <input type="text" id="add-activity" placeholder="Add to your list..." />
-        <ul id="list"></ul>
-        <p class="clear"><a href="#">Clear all completed</a></p>
+    <main>
+        <div class="top">
+            <h1>Today's To Do list</h1>
+            <img id="list_refresh">
+        </div>
+        <form action="javascript:void(0);" method="post" type="submit" id="todo-form">
+            <label for="add-todo" id="add-todo-label">
+                <input type="text" id="add-task" placeholder="Add to your list..." />
+                <img id="enter_newtodo" />
+            </label>
+        </form>
+        <ul id="taskList"></ul>
+        <p></p>
     </main>
 </body>
+
+</html>
