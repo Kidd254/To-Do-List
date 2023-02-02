@@ -2,15 +2,15 @@ import Todo from './todo.js';
 
 const checkboxStatus = (e) => {
   const displayElement = e.target.parentElement.parentElement;
-  const taskIndex = displayElement.getAttribute('id');
-  const task = Todo.getTodo(taskIndex);
-  task.completed = !task.completed;
-  if (task.completed) {
+  const activityIndex = displayElement.getAttribute('id');
+  const activity = Todo.getTodo(activityIndex);
+  activity.completed = !activity.completed;
+  if (activity.completed) {
     displayElement.classList.add('completed');
   } else {
     displayElement.classList.remove('completed');
   }
-  Todo.updateTodo(task);
+  Todo.updateTodo(activity);
 };
 
 export default checkboxStatus;
