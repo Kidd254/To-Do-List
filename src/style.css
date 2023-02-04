@@ -1,12 +1,13 @@
-/* stylelint-disable */
 body {
   background: #f5f5f5;
-  color: rgb(21, 21, 21);
+  font-family: Arial, sans-serif;
+  color: #333;
   height: 100%;
   width: 100%;
+  font-size: 16px;
 }
 
-.list-container {
+main {
   margin: 80px 48px;
   background: #fff;
   border-radius: 2px;
@@ -14,15 +15,32 @@ body {
   border: 1px solid #d5d5d5;
 }
 
-.list-container > h1 {
-  font-family: 'Times New Roman', Times, serif;
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top > h1 {
   font-weight: normal;
   padding: 24px;
   margin: 0;
   border-bottom: 1px solid #d5d5d5;
 }
 
-#add-activity {
+.top > img {
+  margin: 20px;
+  cursor: pointer;
+}
+
+#add-todo-label {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 24px;
+  border-bottom: 1px solid #d5d5d5;
+  align-items: center;
+}
+
+#add-task {
   box-sizing: border-box;
   margin: 0;
   font-size: 24px;
@@ -33,6 +51,10 @@ body {
   width: 100%;
 }
 
+#add-task:focus {
+  outline: none;
+}
+
 ul {
   list-style: none;
   margin: 0;
@@ -40,11 +62,15 @@ ul {
 }
 
 ul > li {
-  padding: 1.5rem;
+  padding: 24px;
   border-bottom: 1px solid #d5d5d5;
   display: flex;
-  text-align: center;
+  justify-content: space-between;
+}
+
+ul > li > label {
   gap: 24px;
+  display: flex;
 }
 
 .checkbox {
@@ -53,14 +79,50 @@ ul > li {
   margin: 0;
 }
 
-.clear {
+p {
   background: #f5f5f5;
   padding: 24px;
   display: flex;
   justify-content: center;
 }
 
-.clear > a {
+p > a:hover {
   text-decoration: none;
   color: #888;
+}
+
+.header-icon {
+  height: 32px;
+}
+
+.icon {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
+.edit-todo-form {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  background: lightyellow;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.edit-todo-form > label {
+  display: flex;
+  gap: 24px;
+}
+
+.edit-todo-input {
+  background: lightyellow;
+  border: none;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.edit-todo-input:focus {
+  outline: none;
 }

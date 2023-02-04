@@ -1,41 +1,73 @@
 import './style.css';
-
-const taskList = document.getElementById('list');
-
-const listArr = [
-  {
-    task: 'Complete to do list activity',
-    completed: true,
-    index: 5,
-  },
-  {
-    task: 'Do some freelance',
-    completed: false,
-    index: 2,
-  },
-  {
-    task: 'Attend the stand-up meeting',
-    completed: false,
-    index: 3,
-  },
-];
-
-const desplayToPage = (activity) => {
-  const element = document.createElement('li');
-  element.setAttribute('id', activity.index);
-  element.innerHTML = `
-  <input type="checkbox" class = "checkbox" ${activity.completed ? 'checked' : ''}/>
-  <article>${activity.task}</article>`;
-  taskList.appendChild(element);
-};
+import Refresh from './rotate.svg';
+import Enter from './enter.png';
+import Todo from './modules/todo.js';
+import { appendToDOM } from './modules/changeDom.js';
+import createDisplayElement from './modules/displayList.js';
+import clearAllCompletedHandler from './modules/clearcompleted.js';
+import { retrieveData } from './modules/localStorage.js';
+import { addTodoForm, addTodoFormHandler } from './modules/addToList.js';
+import updateTodoHandler from './modules/updateTodoHandler.js';
 
 const loadElements = () => {
-  listArr.sort((x, y) => x.index - y.index)
-    .forEach((activity) => {
-      desplayToPage(activity);
+  let taskArray = [];
+  taskArray = retrieveData();
+  taskArray
+    .sort((x, y) => x.index - y.index)
+    .forEach((todo) => {
+      const taskElement = createDisplayElement(todo);
+      appendToDOM(taskElement);
     });
 };
 
+const loadRefreshIcon = () => {
+  const refreshIcon = document.getElementById('list_refresh');
+  refreshIcon.src = Refresh;
+  refreshIcon.alt = 'refresh';
+  refreshIcon.setAttribute('class', 'header-icon');
+  refreshIcon.addEventListener('click', () => {
+    window.location.reload();
+  });
+};
+
+const loadEnterIcon = () => {
+  const enterIcon = document.getElementById('enter_newtodo');
+  enterIcon.src = Enter;
+  enterIcon.alt = 'enter';
+  enterIcon.setAttribute('class', 'icon');
+  // add eventlistner for enter key
+  enterIcon.addEventListener('click', () => {
+    // if todo is written or add to your list field is not empity
+    if (addTodoForm.elements['add-task'].value) {
+      const todosArray = retrieveData();
+      const newTodo = new Todo(
+        addTodoForm.elements['add-task'].value,
+        false,
+        todosArray.length + 1,
+      );
+      Todo.addTodo(newTodo);
+      const todoElement = createDisplayElement(newTodo);
+      appendToDOM(todoElement);
+      addTodoForm.reset();
+    } else if (document.getElementsByClassName('edit-todo-input')[0]) { // if add todo is empity and if someone is yousing phone and want to edit a task
+      updateTodoHandler();
+    }
+  });
+};
+
+const loadAfterAllCleared = () => {
+  const paragraph = document.getElementsByTagName('p')[0];
+  const clearAllCompletedLink = document.createElement('a');
+  clearAllCompletedLink.setAttribute('id', 'clear-all-completed');
+  clearAllCompletedLink.setAttribute('href', '/');
+  clearAllCompletedLink.innerText = 'Clear all completed';
+  clearAllCompletedLink.addEventListener('click', clearAllCompletedHandler);
+  paragraph.appendChild(clearAllCompletedLink);
+};
 window.onload = () => {
   loadElements();
+  loadRefreshIcon();
+  loadEnterIcon();
+  loadAfterAllCleared();
+  addTodoForm.addEventListener('submit', addTodoFormHandler);
 };

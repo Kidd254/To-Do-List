@@ -1,6 +1,5 @@
-/* eslint-disable */
 const path = require('path');
-
+/* eslint-disable */ 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -61,8 +60,14 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
 
       },
+      {
+
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+
+        type: 'asset/resource',
+
+      },
 
     ],
-
   },
 };
