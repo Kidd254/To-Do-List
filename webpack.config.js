@@ -1,12 +1,37 @@
- const path = require('path');
+/* eslint-disable */
+const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
- module.exports = {
-   entry: {
-     index: './src/index.js',
-   },
+module.exports = {
+  mode: 'development',
+  entry: {
 
+    index: {
+
+      import: './src/index.js',
+
+      dependOn: 'shared',
+
+    },
+
+    print: {
+
+      import: './src/print.js',
+
+      dependOn: 'shared',
+
+    },
+
+    shared: './src/style.css',
+  },
+  devtool: 'inline-source-map',
+
+  devServer: {
+
+    static: './dist',
+
+  },
   plugins: [
 
     new HtmlWebpackPlugin({
@@ -16,11 +41,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
     }),
 
   ],
-   output: {
-     filename: 'main.js',
-     path: path.resolve(__dirname, 'dist'),
-   },
-    module: {
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+
+    runtimeChunk: 'single',
+
+  },
+  module: {
 
     rules: [
 
@@ -35,4 +65,4 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
     ],
 
   },
- };
+};
