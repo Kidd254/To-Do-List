@@ -80,6 +80,8 @@ const deletEventHandler = (e) => {
   Todo.removeTodo(indexTodo);
   window.location.reload();
 };
+
+
 describe('deleteEventHandler', () => {
   let toComplete;
   let Todo;
@@ -91,4 +93,23 @@ describe('deleteEventHandler', () => {
       }
     };
     Todo = {
-      removeTodo
+      removeTodo: jest.fn()
+    };
+    window.location.reload = jest.fn();
+  });
+
+  it('should retrieve the index of the todo to be deleted', () => {
+    deleteEventHandler({ target: toComplete });
+    expect(toComplete.parentElement.getAttribute).toHaveBeenCalledWith('id');
+  });
+
+  it('should remove the todo from the todosArray', () => {
+    deleteEventHandler({ target: toComplete });
+    expect(Todo.removeTodo).toHaveBeenCalledWith(1);
+  });
+
+  it('should reload the page', () => {
+    deleteEventHandler({ target: toComplete });
+    expect(window.location.reload).toHaveBeenCalled();
+  });
+});
