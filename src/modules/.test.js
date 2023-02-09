@@ -12,12 +12,15 @@ export const addTodoFormHandler = (e) => {
   appendToDOM(todoElement);
   addTodoForm.reset();
 };
+
+
 describe('addTodoFormHandler', () => {
   let todosArray;
   let addTodoForm;
 
   beforeEach(() => {
-    todosArray = [      { task: 'Task 1', completed: false, id: 1 },      { task: 'Task 2', completed: false, id: 2 },    ];
+    todosArray = [      { task: 'Task 1', completed: false, id: 1 },     
+     { task: 'Task 2', completed: false, id: 2 },    ];
     addTodoForm = {
       elements: {
         'add-task': {
@@ -125,9 +128,9 @@ const localStorageMock = {
 global.localStorage = localStorageMock;
 
 //mock html
-import { deletEventHandler } from './delete.js';
+import {deletEventHandler } from './delete.js';
 
-describe('deleteEventHandler', () => {
+describe('deletEventHandler', () => {
   let toComplete;
   let Todo;
   let li;
@@ -147,7 +150,7 @@ describe('deleteEventHandler', () => {
   });
 
   it('should remove exactly one li element from the DOM', () => {
-    deleteEventHandler({ target: toComplete });
+    deletEventHandler({ target: toComplete });
     expect(document.querySelectorAll('li')).toHaveLength(0);
   });
 });
