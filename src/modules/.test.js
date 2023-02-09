@@ -82,7 +82,7 @@ const deletEventHandler = (e) => {
 };
 
 
-describe('deleteEventHandler', () => {
+describe('deletEventHandler', () => {
   let toComplete;
   let Todo;
 
@@ -99,17 +99,55 @@ describe('deleteEventHandler', () => {
   });
 
   it('should retrieve the index of the todo to be deleted', () => {
-    deleteEventHandler({ target: toComplete });
+    deletEventHandler({ target: toComplete });
     expect(toComplete.parentElement.getAttribute).toHaveBeenCalledWith('id');
   });
 
   it('should remove the todo from the todosArray', () => {
-    deleteEventHandler({ target: toComplete });
+    deletEventHandler({ target: toComplete });
     expect(Todo.removeTodo).toHaveBeenCalledWith(1);
   });
 
   it('should reload the page', () => {
-    deleteEventHandler({ target: toComplete });
+    deletEventHandler({ target: toComplete });
     expect(window.location.reload).toHaveBeenCalled();
+  });
+});
+
+//mock local storange
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+
+global.localStorage = localStorageMock;
+
+//mock html
+import { deletEventHandler } from './delete.js';
+
+describe('deleteEventHandler', () => {
+  let toComplete;
+  let Todo;
+  let li;
+
+  beforeEach(() => {
+    toComplete = {
+      parentElement: {
+        getAttribute: jest.fn(() => 1)
+      }
+    };
+    Todo = {
+      removeTodo: jest.fn()
+    };
+    window.location.reload = jest.fn();
+    li = document.createElement('li');
+    document.body.appendChild(li);
+  });
+
+  it('should remove exactly one li element from the DOM', () => {
+    deleteEventHandler({ target: toComplete });
+    expect(document.querySelectorAll('li')).toHaveLength(0);
   });
 });
