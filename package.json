@@ -504,6 +504,9 @@
     "jest-environment-jsdom": "^29.4.2",
     "webpack-dev-server": "^4.11.1"
   },
+  "jest": {
+  "testEnvironment": "jsdom"
+},
   "scripts": {
     "test": "jest",
     "watch": "webpack --watch",
