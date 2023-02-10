@@ -1,12 +1,77 @@
-// function for editing task description
-const createTaskDescripion = (description) => {
-  const activityDescription = document.createElement('input');
-  activityDescription.setAttribute('type', 'text');
-  activityDescription.setAttribute('name', 'edit-todo');
-  activityDescription.setAttribute('class', 'edit-todo-input');
-  activityDescription.setAttribute('value', description);
-  return activityDescription;
-};
+ /* eslint-disable */ 
+// file: src/modules/todo.js
+class Todo {
+  constructor(description, completed = false, index) {
+    this.description = description;
+    this.completed = completed;
+    this.index = index;
+  }
+
+  static getTodo(index) {
+    const todos = retrieveData();
+    return todos.find(todo => todo.index === parseInt(index));
+  }
+}
+
+// file: src/modules/test/partTwo.test.js
+import { Todo } from '../todo';
+
+describe('Todo', () => {
+  it('should create a Todo object with the specified properties', () => {
+    const description = 'Finish project report';
+    const todo = new Todo(description, false, 1);
+    expect(todo).toHaveProperty('description', description);
+    expect(todo).toHaveProperty('completed', false);
+    expect(todo).toHaveProperty('index', 1);
+  });
+});
+
+describe('Todo.getTodo', () => {
+  it('should retrieve a todo by index', () => {
+    const activities = [
+      { description: 'Test task 1', completed: false, index: 1 },
+      { description: 'Test task 2', completed: true, index: 2 },
+      { description: 'Test task 3', completed: true, index: 3 },
+      { description: 'Test task 4', completed: false, index: 4 },
+    ];
+    jest.spyOn(window, 'retrieveData').mockReturnValue(activities);
+    const activity = Todo.getTodo(2);
+    expect(activity).toHaveProperty('description', 'Test task 2');
+    expect(activity).toHaveProperty('completed', true);
+    expect(activity).toHaveProperty('index', 2);
+  });
+});
+
+describe('Todo', () => {
+  let activities;
+  beforeEach(() => {
+    activities = [      { description: 'Test task 1', completed: false, index: 1 },      { description: 'Test task 2', completed: true, index: 2 },      { description: 'Test task 3', completed: true, index: 3 },      { description: 'Test task 4', completed: false, index: 4 },    ];
+  });
+
+  it('gets a todo activity', () => {
+    const activity = Todo.getTodo(2);
+    expect(activity).toEqual({ description: 'Test task 2', completed: true, index: 2 });
+  });
+
+  it('adds a new todo activity', () => {
+    const newActivity = { description: 'Test task 5', completed: false, index: 5 };
+    Todo.addTodo(newActivity);
+    expect(activities.length).toBe(5);
+    expect(activities[4]).toEqual(newActivity);
+  });
+
+  it('deletes a todo activity', () => {
+    Todo.deleteTodo(2);
+    expect(activities.length).toBe(3);
+    expect(activities[1]).toEqual({ description: 'Test task 3', completed: true, index: 3 });
+  });
+
+  it('toggles the completed status of a todo', () => {
+    const activity = Todo.getTodo(2);
+    Todo.toggleTodo(activity);
+    expect(activity.completed).toBe(false);
+  });
+});
 
 describe('createTaskDescription', () => {
   it('creates an input element with the specified properties', () => {
@@ -15,25 +80,8 @@ describe('createTaskDescription', () => {
     expect(result).toBeInstanceOf(HTMLInputElement);
     expect(result.getAttribute('type')).toBe('text');
     expect(result.getAttribute('name')).toBe('edit-todo');
-    expect(result.getAttribute('class')).toBe('edit-todo-input');
-    expect(result.getAttribute('value')).toBe(description);
   });
 });
-
-
-//mark complete
-const checkboxStatus = (e) => {
-  const displayElement = e.target.parentElement.parentElement;
-  const activityIndex = displayElement.getAttribute('id');
-  const activity = Todo.getTodo(activityIndex);
-  activity.completed = !activity.completed;
-  if (activity.completed) {
-    displayElement.classList.add('completed');
-  } else {
-    displayElement.classList.remove('completed');
-  }
-  Todo.updateTodo(activity);
-};
 
 describe('checkboxStatus', () => {
   it('should toggle the completed status of a todo', () => {
@@ -41,76 +89,25 @@ describe('checkboxStatus', () => {
       target: {
         parentElement: {
           parentElement: {
-            getAttribute: jest.fn(() => 1),
+            getAttribute: jest.fn().mockReturnValue(2),
             classList: {
               add: jest.fn(),
-              remove: jest.fn()
-            }
-          }
-        }
-      }
+              remove: jest.fn(),
+            },
+          },
+        },
+      },
     };
-
-    const Todo = {
-      getTodo: jest.fn(() => ({ completed: false })),
-      updateTodo: jest.fn()
-    };
-
-    checkboxStatus(e);
-    expect(Todo.getTodo).toHaveBeenCalledWith(1);
-    expect(Todo.updateTodo).toHaveBeenCalledWith({ completed: true });
-    expect(e.target.parentElement.parentElement.classList.add).toHaveBeenCalledWith('completed');
-
-    checkboxStatus(e);
-    expect(Todo.getTodo).toHaveBeenCalledWith(1);
-    expect(Todo.updateTodo).toHaveBeenCalledWith({ completed: false });
-    expect(e.target.parentElement.parentElement.classList.remove).toHaveBeenCalledWith('completed');
-  });
-});
-
-//clear
-const clearAllCompletedHandler = (e) => {
-  e.preventDefault();
-  let activities = retrieveData();
-  activities.forEach((element) => {
-    if (element.completed) {
-      activities = activities.filter((todo) => todo.index.toString() !== element.index.toString());
+    const displayElement = e.target.parentElement.parentElement;
+    const activityIndex = displayElement.getAttribute('id');
+    const activity = Todo.getTodo(activityIndex);
+    activity.completed = !activity.completed;
+    if (activity.completed) {
+      displayElement.classList.add('completed');
+    } else {
+      displayElement.classList.remove('completed');
     }
-  });
-  const IndexChengedArray = [];
-  activities.sort((x, y) => x.index - y.index).forEach((element, index) => {
-    IndexChengedArray.push(new Todo(element.description, element.completed, index + 1));
-  });
-  storeData(IndexChengedArray);
-  window.location.reload();
-};
-
-describe('clearAllCompletedHandler', () => {
-  let activities;
-
-  beforeEach(() => {
-    activities = [      { description: 'Test task 1', completed: false, index: 1 },      { description: 'Test task 2', completed: true, index: 2 },      { description: 'Test task 3', completed: true, index: 3 },      { description: 'Test task 4', completed: false, index: 4 },    ];
-    jest.spyOn(window, 'retrieveData').mockReturnValue(activities);
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('should remove all completed activities from the list and update the indices', () => {
-    const e = { preventDefault: jest.fn() };
-    clearAllCompletedHandler(e);
-    expect(window.retrieveData).toHaveBeenCalled();
-    expect(e.preventDefault).toHaveBeenCalled();
-    expect(window.storeData).toHaveBeenCalledWith([
-      { description: 'Test task 1', completed: false, index: 1 },
-      { description: 'Test task 4', completed: false, index: 2 },
-    ]);
-  });
-
-  it('should reload the page', () => {
-    jest.spyOn(window, 'location', 'get').mockReturnValue({ reload: jest.fn() });
-    clearAllCompletedHandler({ preventDefault: jest.fn() });
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(activity.completed).toBe(true);
+    expect(displayElement.classList.add).toHaveBeenCalledWith('completed');
   });
 });

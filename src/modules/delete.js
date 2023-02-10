@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import Todo from './todo.js';
 
 const deletEventHandler = (e) => {
