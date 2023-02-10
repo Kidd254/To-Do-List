@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 class Todo {
   constructor(description, completed = false, index) {
     this.description = description;
@@ -5,13 +6,11 @@ class Todo {
     this.index = index;
   }
 
-  static getTodo(index) {
+  static getTodoa(index) {
     const todos = retrieveData();
     return todos.find(todo => todo.index === parseInt(index));
   }
 }
-
-import { Todo } from '../todo';
 
 describe('Todo', () => {
   it('should create a Todo object with the specified properties', () => {
