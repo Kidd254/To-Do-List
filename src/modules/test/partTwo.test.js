@@ -1,5 +1,3 @@
- /* eslint-disable */ 
-// file: src/modules/todo.js
 class Todo {
   constructor(description, completed = false, index) {
     this.description = description;
@@ -13,7 +11,6 @@ class Todo {
   }
 }
 
-// file: src/modules/test/partTwo.test.js
 import { Todo } from '../todo';
 
 describe('Todo', () => {
