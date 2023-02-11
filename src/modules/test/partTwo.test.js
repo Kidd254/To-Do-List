@@ -1,109 +1,131 @@
-/* eslint-disable */ 
-class Todo {
-  constructor(description, completed = false, index) {
-    this.description = description;
-    this.completed = completed;
-    this.index = index;
-  }
+/**
+ * @jest-environment jsdom
+ */
+import Todo from '../todo.js';
+import { appendToDOM, removeFromDOM, removeAllCompletedFromDOM } from '../changeDom.js';
 
-  static getTodoa(index) {
-    const todos = retrieveData();
-    return todos.find(todo => todo.index === parseInt(index));
-  }
-}
-
-describe('Todo', () => {
-  it('should create a Todo object with the specified properties', () => {
-    const description = 'Finish project report';
-    const todo = new Todo(description, false, 1);
-    expect(todo).toHaveProperty('description', description);
-    expect(todo).toHaveProperty('completed', false);
-    expect(todo).toHaveProperty('index', 1);
+jest.mock('../localStorage.js');
+const task = new Todo('test', false, 1);
+const newElement = document.createElement('li');
+document.body.innerHTML = '<div><ul id="taskList"></ul></div>';
+// test for add
+describe('add task', () => {
+  test('adds a task to storage', () => {
+    expect(Todo.addTodo(task)).toStrictEqual([task]);
+  });
+  appendToDOM(newElement);
+  test('append a task to DOM', () => {
+    const taskList = document.querySelectorAll('#taskList li');
+    expect(taskList).toHaveLength(1);
+  });
+});
+// test for delet
+describe('delet task', () => {
+  test('delets a task', () => {
+    expect(Todo.removeTodo(task.index)).toStrictEqual([]);
+  });
+  test('deletss a task element in the dom', () => {
+    removeFromDOM(newElement);
+    const taskList = document.querySelectorAll('#taskList li');
+    expect(taskList).toHaveLength(0);
   });
 });
 
-describe('Todo.getTodo', () => {
-  it('should retrieve a todo by index', () => {
-    const activities = [
-      { description: 'Test task 1', completed: false, index: 1 },
-      { description: 'Test task 2', completed: true, index: 2 },
-      { description: 'Test task 3', completed: true, index: 3 },
-      { description: 'Test task 4', completed: false, index: 4 },
+// test for edit
+describe('Edit task description', () => {
+  test('task element to be updated is being sent', () => {
+    // Arrange
+    const taskArr = [{ description: 'test', completed: false, index: 1 }];
+    //  Act
+    const testArray = Todo.updateTodo(task);
+    //  Assert
+    const { description } = testArray[0];
+    expect(description).toEqual(taskArr[0].description);
+  });
+
+  test('Update task different description', () => {
+    //  Arrange
+    const taskArr = [
+      { description: 'other-description', completed: false, index: 1 },
     ];
-    jest.spyOn(window, 'retrieveData').mockReturnValue(activities);
-    const activity = Todo.getTodo(2);
-    expect(activity).toHaveProperty('description', 'Test task 2');
-    expect(activity).toHaveProperty('completed', true);
-    expect(activity).toHaveProperty('index', 2);
+    // Act
+    const testArray = Todo.updateTodo(task);
+    // Assert
+    const { description } = testArray[0];
+    expect(description).not.toBe(taskArr[0].description);
+  });
+
+  test('task description is updated', () => {
+    // Act
+    const testArray = Todo.updateTodo({ description: 'updatedDescription', completed: false, index: 1 });
+    // Assert
+    const { description } = testArray[0];
+    expect(description).toBe('updatedDescription');
   });
 });
 
-describe('Todo', () => {
-  let activities;
-  beforeEach(() => {
-    activities = [      { description: 'Test task 1', completed: false, index: 1 },      { description: 'Test task 2', completed: true, index: 2 },      { description: 'Test task 3', completed: true, index: 3 },      { description: 'Test task 4', completed: false, index: 4 },    ];
-  });
+// test for completion update using check box
+describe('edit task completion using  checkbox', () => {
+  it('edits a task checkbox in local storage', () => {
+    // Arrange
+    const completedTask = { ...task };
+    completedTask.completed = true;
 
-  it('gets a todo activity', () => {
-    const activity = Todo.getTodo(2);
-    expect(activity).toEqual({ description: 'Test task 2', completed: true, index: 2 });
-  });
+    // Act
+    const modifiedArray = Todo.updateTodo(completedTask);
+    const completedTaskArray = modifiedArray.filter(
+      (e) => e.index === completedTask.index,
+    );
+    const { completed } = completedTaskArray[0];
 
-  it('adds a new todo activity', () => {
-    const newActivity = { description: 'Test task 5', completed: false, index: 5 };
-    Todo.addTodo(newActivity);
-    expect(activities.length).toBe(5);
-    expect(activities[4]).toEqual(newActivity);
-  });
-
-  it('deletes a todo activity', () => {
-    Todo.deleteTodo(2);
-    expect(activities.length).toBe(3);
-    expect(activities[1]).toEqual({ description: 'Test task 3', completed: true, index: 3 });
-  });
-
-  it('toggles the completed status of a todo', () => {
-    const activity = Todo.getTodo(2);
-    Todo.toggleTodo(activity);
-    expect(activity.completed).toBe(false);
+    // Assert
+    expect(completed).toBeTruthy();
+    expect(completed).not.toBeFalsy();
   });
 });
 
-describe('createTaskDescription', () => {
-  it('creates an input element with the specified properties', () => {
-    const description = 'Finish project report';
-    const result = createTaskDescription(description);
-    expect(result).toBeInstanceOf(HTMLInputElement);
-    expect(result.getAttribute('type')).toBe('text');
-    expect(result.getAttribute('name')).toBe('edit-todo');
+describe('clear all completed', () => {
+  // Arrange
+  const task1 = new Todo('test1', true, 1);
+  const task2 = new Todo('test2', true, 2);
+  const task3 = new Todo('test3', true, 3);
+  const task4 = new Todo('test3', true, 4);
+  const modifiedArray = [task1, task2, task3, task4];
+  test('clear All Four(4) completed tasks in local storage', () => {
+    // Act
+    const newUpdatedArr = Todo.clearAllCompletedTask(modifiedArray);
+    // Assert
+    expect(newUpdatedArr).toHaveLength(0);
   });
-});
 
-describe('checkboxStatus', () => {
-  it('should toggle the completed status of a todo', () => {
-    const e = {
-      target: {
-        parentElement: {
-          parentElement: {
-            getAttribute: jest.fn().mockReturnValue(2),
-            classList: {
-              add: jest.fn(),
-              remove: jest.fn(),
-            },
-          },
-        },
-      },
-    };
-    const displayElement = e.target.parentElement.parentElement;
-    const activityIndex = displayElement.getAttribute('id');
-    const activity = Todo.getTodo(activityIndex);
-    activity.completed = !activity.completed;
-    if (activity.completed) {
-      displayElement.classList.add('completed');
-    } else {
-      displayElement.classList.remove('completed');
-    }
-    expect(activity.completed).toBe(true);
-    expect(displayElement.classList.add).toHaveBeenCalledWith('completed');
+  test('clear 2 completed tasks in local storage from 4 tasks', () => {
+    // Arrange
+    task4.completed = false;
+    task3.completed = false;
+    const modifiedArray = [task1, task2, task3, task4];
+    // Act
+    const newUpdatedArr = Todo.clearAllCompletedTask(modifiedArray);
+    // Assert
+    expect(newUpdatedArr).toHaveLength(2);
+  });
+
+  test('clear all completed tasks in DOM', () => {
+    // Arrange
+    document.body.innerHTML = `
+    <div>
+      <ul id="taskList">
+        <li id="1" class='completed'></li>
+        <li id="2" class='completed'></li>
+        <li id="3"></li>
+        <li id="4"></li>
+      </ul>
+    </div>
+    `;
+    // Act
+    const taskList = document.querySelectorAll('#taskList li');
+    removeAllCompletedFromDOM(taskList);
+    // Assert
+    const remainList = document.querySelectorAll('#taskList li');
+    expect(remainList).toHaveLength(2);
   });
 });

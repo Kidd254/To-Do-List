@@ -1,6 +1,6 @@
 import { storeData, retrieveData } from './localStorage.js';
 
-let newListArray = [];
+let newTodoArray = [];
 
 export default class Todo {
   constructor(description, completed, index) {
@@ -10,8 +10,8 @@ export default class Todo {
   }
 
   static getTodo = (index) => {
-    newListArray = retrieveData();
-    const todo = newListArray.find((x) => x.index.toString() === index.toString());
+    newTodoArray = retrieveData();
+    const todo = newTodoArray.find((x) => x.index.toString() === index.toString());
     return todo;
   }
 
@@ -27,22 +27,37 @@ export default class Todo {
   }
 
   static updateTodo = (todo) => {
-    newListArray = retrieveData();
-    newListArray = newListArray.filter((element) => element.index !== todo.index);
+    newTodoArray = retrieveData();
+    newTodoArray = newTodoArray.filter((element) => element.index !== todo.index);
     const newTodo = new Todo(
       todo.description,
       todo.completed,
       todo.index,
     );
-    newListArray.push(newTodo);
-    storeData(newListArray);
+    newTodoArray.push(newTodo);
+    storeData(newTodoArray);
+    return storeData(newTodoArray);
   }
 
   static removeTodo = (index) => {
-    newListArray = retrieveData();
-    newListArray = newListArray.filter((element) => element.index.toString() !== index.toString());
+    newTodoArray = retrieveData();
+    newTodoArray = newTodoArray.filter((element) => element.index.toString() !== index.toString());
     const reIndexedArray = [];
-    newListArray.sort((x, y) => x.index - y.index).forEach((element, index) => {
+    newTodoArray.sort((x, y) => x.index - y.index).forEach((element, index) => {
+      reIndexedArray.push(new Todo(element.description, element.completed, index + 1));
+    });
+    return storeData(reIndexedArray);
+  }
+
+  static clearAllCompletedTask = (tasksArray) => {
+    let tasks = tasksArray;
+    tasks.forEach((element) => {
+      if (element.completed) {
+        tasks = tasks.filter((task) => task.index.toString() !== element.index.toString());
+      }
+    });
+    const reIndexedArray = [];
+    tasks.sort((x, y) => x.index - y.index).forEach((element, index) => {
       reIndexedArray.push(new Todo(element.description, element.completed, index + 1));
     });
     return storeData(reIndexedArray);
