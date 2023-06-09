@@ -44,7 +44,7 @@ This project is built using pure
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [a link to the online version]()
+- [a link to the online version](https://kidd254.github.io/To-Do-List/dist/)
 
 - [a link to a presentation about this project]()
 
