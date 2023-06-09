@@ -1,6 +1,5 @@
-/**
- * @jest-environment jsdom
- */
+// @jest-environment jsdom
+
 import Todo from './todo.js';
 import { appendToDOM, removeFromDOM } from './changeDom.js';
 
