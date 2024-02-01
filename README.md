@@ -1,4 +1,4 @@
-# To-Do-List
+# To Do List
 # 📗 Table of Contents
 
 - [📖 About the Project](#about-project)
@@ -23,7 +23,7 @@
 
 
 
-# 📖 [To-Do-List] <a name="about-project"></a>
+# 📖 [To Do List] <a name="about-project"></a>
 **[To-Do-List]** In this project i applied different concepts such as ES6, JavaScript modules,  knowledge on gitflow and Es Linter Configuration. This project was build using Html and css. Git, Github, and Vs Code Studio were key technological tools used in this project.
 
 ## 🛠 Built With <a name="built-with"> </a>
@@ -107,7 +107,7 @@ You can deploy this project using: github pages
 
 ## 👥 Author <a name="authors"></a>
 
-👤 **Author1**
+👤 **Lawrence Muema Kioko**
   
 - GitHub: [@Kidd254](https://github.com/Kidd254)
 - Twitter: [@lawrenc98789206](https://twitter.com/lawrenc98789206)
